@@ -161,5 +161,40 @@ public class CountryTest {
         ;
     }
 
+    @Test
+    public void deleteCountryNegativeTest(){
+        Country country = new Country();
+        country.setName( "Daulet 1" );
+        country.setCode( "SDK" );
 
+        // creating country
+        String countryId = given()
+                .cookies( cookies )
+                .body( country )
+                .contentType( ContentType.JSON )
+                .when()
+                .post( "/school-service/api/countries" )
+                .then()
+                .statusCode( 201 )
+                .extract().jsonPath().getString( "id" )
+                ;
+
+        // deleting country
+        given()
+                .cookies( cookies )
+                .when()
+                .delete("/school-service/api/countries/" + countryId)
+                .then()
+                .statusCode( 200 )
+        ;
+
+        // deleting country again
+        given()
+                .cookies( cookies )
+                .when()
+                .delete("/school-service/api/countries/" + countryId)
+                .then()
+                .statusCode( 404 )
+        ;
+    }
 }
