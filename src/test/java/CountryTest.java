@@ -123,4 +123,43 @@ public class CountryTest {
                 .statusCode( 200 )
         ;
     }
+
+    @Test
+    public void createCountryNegativeTest(){
+        Country country = new Country();
+        country.setName( "Daulet 1" );
+        country.setCode( "SDK" );
+
+        // creating country
+        String countryId = given()
+                .cookies( cookies )
+                .body( country )
+                .contentType( ContentType.JSON )
+                .when()
+                .post( "/school-service/api/countries" )
+                .then()
+                .statusCode( 201 )
+                .extract().jsonPath().getString( "id" )
+                ;
+
+        given()
+                .cookies( cookies )
+                .body( country )
+                .contentType( ContentType.JSON )
+                .when()
+                .post( "/school-service/api/countries" )
+                .then()
+                .statusCode( 400 );
+
+        // deleting country
+        given()
+                .cookies( cookies )
+                .when()
+                .delete("/school-service/api/countries/" + countryId)
+                .then()
+                .statusCode( 200 )
+        ;
+    }
+
+
 }
