@@ -1,6 +1,7 @@
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookies;
+import model.Country;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,6 +47,33 @@ public class CountryTest {
                 .cookies( cookies )
                 .when()
                 .get("/school-service/api/countries")
+                .then()
+        .statusCode( 200 )
+        ;
+    }
+
+    @Test
+    public void createCountry(){
+        Country country = new Country();
+        country.setName( "Daulet 1" );
+        country.setCode( "SDK" );
+
+        // creating country
+        String countryId = given()
+                .cookies( cookies )
+                .body( country )
+                .contentType( ContentType.JSON )
+                .when()
+                .post( "/school-service/api/countries" )
+                .then()
+        .statusCode( 201 )
+        .extract().jsonPath().getString( "id" )
+        ;
+
+        given()
+                .cookies( cookies )
+                .when()
+                .delete("/school-service/api/countries/" + countryId)
                 .then()
         .statusCode( 200 )
         ;
