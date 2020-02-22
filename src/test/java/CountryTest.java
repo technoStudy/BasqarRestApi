@@ -70,12 +70,57 @@ public class CountryTest {
         .extract().jsonPath().getString( "id" )
         ;
 
+        // deleting country
         given()
                 .cookies( cookies )
                 .when()
                 .delete("/school-service/api/countries/" + countryId)
                 .then()
         .statusCode( 200 )
+        ;
+    }
+
+    @Test
+    public void editTest() {
+        Country country = new Country();
+        country.setName( "Daulet 1" );
+        country.setCode( "SDK" );
+
+        // creating country
+        String countryId = given()
+                .cookies( cookies )
+                .body( country )
+                .contentType( ContentType.JSON )
+                .when()
+                .post( "/school-service/api/countries" )
+                .then()
+                .statusCode( 201 )
+                .extract().jsonPath().getString( "id" )
+                ;
+
+        // Editing country
+        country.setId( countryId );
+        country.setName( "Daulet Edited" );
+        country.setCode( "Code Edited" );
+        given()
+                .cookies( cookies )
+                .body( country )
+                .contentType( ContentType.JSON )
+                .when()
+                .put("/school-service/api/countries")
+                .then()
+        .statusCode( 200 )
+        .body( "name", equalTo( country.getName() ) )
+        .body( "code", equalTo( country.getCode() ) )
+        ;
+
+        // deleting country
+        given()
+                .cookies( cookies )
+                .when()
+                .delete("/school-service/api/countries/" + countryId)
+                .then()
+                .statusCode( 200 )
         ;
     }
 }
