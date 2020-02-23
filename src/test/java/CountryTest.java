@@ -20,11 +20,11 @@ public class CountryTest {
     private String codeEdited;
 
     @BeforeClass
-    public void authenticate(){
-        name = getAlphaNumericString(30);
-        nameEdited = getAlphaNumericString(30);
-        code = getAlphaNumericString(10);
-        codeEdited = getAlphaNumericString(10);
+    public void authenticate() {
+        name = getAlphaNumericString( 30 );
+        nameEdited = getAlphaNumericString( 30 );
+        code = getAlphaNumericString( 10 );
+        codeEdited = getAlphaNumericString( 10 );
         RestAssured.baseURI = "https://test-basqar.mersys.io";
         Map<String, String> credentials = new HashMap<>();
         credentials.put( "username", "nigeria_tenant_admin" );
@@ -34,35 +34,41 @@ public class CountryTest {
                 .body( credentials )
                 .contentType( ContentType.JSON )
                 .when()
+                .log().body()
                 .post( "/auth/login" )
                 .then()
-        .statusCode( 200 )
-        .extract().response().getDetailedCookies();
+                .log().body()
+                .statusCode( 200 )
+                .extract().response().getDetailedCookies();
     }
 
     @Test
-    public void getBasePath(){
+    public void getBasePath() {
         given()
                 .when()
+                .log().body()
                 .get()
                 .then()
-        .statusCode( 200 )
+                .log().body()
+                .statusCode( 200 )
         ;
     }
 
     @Test
-    public void getCountries(){
+    public void getCountries() {
         given()
                 .cookies( cookies )
                 .when()
-                .get("/school-service/api/countries")
+                .log().body()
+                .get( "/school-service/api/countries" )
                 .then()
-        .statusCode( 200 )
+                .log().body()
+                .statusCode( 200 )
         ;
     }
 
     @Test
-    public void createCountry(){
+    public void createCountry() {
         Country country = new Country();
         country.setName( name );
         country.setCode( code );
@@ -73,19 +79,22 @@ public class CountryTest {
                 .body( country )
                 .contentType( ContentType.JSON )
                 .when()
+                .log().body()
                 .post( "/school-service/api/countries" )
                 .then()
-        .statusCode( 201 )
-        .extract().jsonPath().getString( "id" )
-        ;
+                .log().body()
+                .statusCode( 201 )
+                .extract().jsonPath().getString( "id" );
 
         // deleting country
         given()
                 .cookies( cookies )
                 .when()
-                .delete("/school-service/api/countries/" + countryId)
+                .log().body()
+                .delete( "/school-service/api/countries/" + countryId )
                 .then()
-        .statusCode( 200 )
+                .log().body()
+                .statusCode( 200 )
         ;
     }
 
@@ -101,11 +110,12 @@ public class CountryTest {
                 .body( country )
                 .contentType( ContentType.JSON )
                 .when()
+                .log().body()
                 .post( "/school-service/api/countries" )
                 .then()
+                .log().body()
                 .statusCode( 201 )
-                .extract().jsonPath().getString( "id" )
-                ;
+                .extract().jsonPath().getString( "id" );
 
         // Editing country
         country.setId( countryId );
@@ -116,25 +126,29 @@ public class CountryTest {
                 .body( country )
                 .contentType( ContentType.JSON )
                 .when()
-                .put("/school-service/api/countries")
+                .log().body()
+                .put( "/school-service/api/countries" )
                 .then()
-        .statusCode( 200 )
-        .body( "name", equalTo( country.getName() ) )
-        .body( "code", equalTo( country.getCode() ) )
+                .log().body()
+                .statusCode( 200 )
+                .body( "name", equalTo( country.getName() ) )
+                .body( "code", equalTo( country.getCode() ) )
         ;
 
         // deleting country
         given()
                 .cookies( cookies )
                 .when()
-                .delete("/school-service/api/countries/" + countryId)
+                .log().body()
+                .delete( "/school-service/api/countries/" + countryId )
                 .then()
+                .log().body()
                 .statusCode( 200 )
         ;
     }
 
     @Test
-    public void createCountryNegativeTest(){
+    public void createCountryNegativeTest() {
         Country country = new Country();
         country.setName( name );
         country.setCode( code );
@@ -145,33 +159,38 @@ public class CountryTest {
                 .body( country )
                 .contentType( ContentType.JSON )
                 .when()
+                .log().body()
                 .post( "/school-service/api/countries" )
                 .then()
+                .log().body()
                 .statusCode( 201 )
-                .extract().jsonPath().getString( "id" )
-                ;
+                .extract().jsonPath().getString( "id" );
 
         given()
                 .cookies( cookies )
                 .body( country )
                 .contentType( ContentType.JSON )
                 .when()
+                .log().body()
                 .post( "/school-service/api/countries" )
                 .then()
+                .log().body()
                 .statusCode( 400 );
 
         // deleting country
         given()
                 .cookies( cookies )
                 .when()
-                .delete("/school-service/api/countries/" + countryId)
+                .log().body()
+                .delete( "/school-service/api/countries/" + countryId )
                 .then()
+                .log().body()
                 .statusCode( 200 )
         ;
     }
 
     @Test
-    public void deleteCountryNegativeTest(){
+    public void deleteCountryNegativeTest() {
         Country country = new Country();
         country.setName( name );
         country.setCode( code );
@@ -182,19 +201,21 @@ public class CountryTest {
                 .body( country )
                 .contentType( ContentType.JSON )
                 .when()
+                .log().body()
                 .post( "/school-service/api/countries" )
                 .then()
                 .log().body()
                 .statusCode( 201 )
-                .extract().jsonPath().getString( "id" )
-                ;
+                .extract().jsonPath().getString( "id" );
 
         // deleting country
         given()
                 .cookies( cookies )
                 .when()
-                .delete("/school-service/api/countries/" + countryId)
+                .log().body()
+                .delete( "/school-service/api/countries/" + countryId )
                 .then()
+                .log().body()
                 .statusCode( 200 )
         ;
 
@@ -202,14 +223,15 @@ public class CountryTest {
         given()
                 .cookies( cookies )
                 .when()
-                .delete("/school-service/api/countries/" + countryId)
+                .log().body()
+                .delete( "/school-service/api/countries/" + countryId )
                 .then()
+                .log().body()
                 .statusCode( 404 )
         ;
     }
 
-    private String getAlphaNumericString(int n)
-    {
+    private String getAlphaNumericString(int n) {
 
         // chose a Character random from this String
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -217,19 +239,19 @@ public class CountryTest {
                 + "abcdefghijklmnopqrstuvxyz";
 
         // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(n);
+        StringBuilder sb = new StringBuilder( n );
 
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
 
             // generate a random number between
             // 0 to AlphaNumericString variable length
             int index
-                    = (int)(AlphaNumericString.length()
+                    = (int) (AlphaNumericString.length()
                     * Math.random());
 
             // add Character one by one in end of sb
-            sb.append(AlphaNumericString
-                    .charAt(index));
+            sb.append( AlphaNumericString
+                    .charAt( index ) );
         }
 
         return sb.toString();
