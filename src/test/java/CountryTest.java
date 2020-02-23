@@ -13,11 +13,18 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class CountryTest {
-    private final String name = "Daulet " + new Random(123456789).nextInt(10000000);
+    private String name;
     private Cookies cookies;
+    private String nameEdited;
+    private String code;
+    private String codeEdited;
 
     @BeforeClass
     public void authenticate(){
+        name = getAlphaNumericString(30);
+        nameEdited = getAlphaNumericString(30);
+        code = getAlphaNumericString(10);
+        codeEdited = getAlphaNumericString(10);
         RestAssured.baseURI = "https://test-basqar.mersys.io";
         Map<String, String> credentials = new HashMap<>();
         credentials.put( "username", "nigeria_tenant_admin" );
@@ -58,7 +65,7 @@ public class CountryTest {
     public void createCountry(){
         Country country = new Country();
         country.setName( name );
-        country.setCode( "SDK" );
+        country.setCode( code );
 
         // creating country
         String countryId = given()
@@ -86,7 +93,7 @@ public class CountryTest {
     public void editTest() {
         Country country = new Country();
         country.setName( name );
-        country.setCode( "SDK" );
+        country.setCode( code );
 
         // creating country
         String countryId = given()
@@ -102,8 +109,8 @@ public class CountryTest {
 
         // Editing country
         country.setId( countryId );
-        country.setName( "Daulet Edited" );
-        country.setCode( "Code Edited" );
+        country.setName( nameEdited );
+        country.setCode( codeEdited );
         given()
                 .cookies( cookies )
                 .body( country )
@@ -130,7 +137,7 @@ public class CountryTest {
     public void createCountryNegativeTest(){
         Country country = new Country();
         country.setName( name );
-        country.setCode( "SDK" );
+        country.setCode( code );
 
         // creating country
         String countryId = given()
@@ -167,7 +174,7 @@ public class CountryTest {
     public void deleteCountryNegativeTest(){
         Country country = new Country();
         country.setName( name );
-        country.setCode( "SDK" );
+        country.setCode( code );
 
         // creating country
         String countryId = given()
@@ -199,5 +206,32 @@ public class CountryTest {
                 .then()
                 .statusCode( 404 )
         ;
+    }
+
+    private String getAlphaNumericString(int n)
+    {
+
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
     }
 }
