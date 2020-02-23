@@ -7,12 +7,13 @@ import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class CountryTest {
-    private final String name = "Daulet 12312";
+    private final String name = "Daulet " + new Random(123456789).nextInt(10000000);
     private Cookies cookies;
 
     @BeforeClass
