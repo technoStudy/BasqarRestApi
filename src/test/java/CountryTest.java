@@ -12,6 +12,7 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class CountryTest {
+    private final String name = "Daulet 12312";
     private Cookies cookies;
 
     @BeforeClass
@@ -55,7 +56,7 @@ public class CountryTest {
     @Test
     public void createCountry(){
         Country country = new Country();
-        country.setName( "Daulet 1" );
+        country.setName( name );
         country.setCode( "SDK" );
 
         // creating country
@@ -83,7 +84,7 @@ public class CountryTest {
     @Test
     public void editTest() {
         Country country = new Country();
-        country.setName( "Daulet 1" );
+        country.setName( name );
         country.setCode( "SDK" );
 
         // creating country
@@ -127,7 +128,7 @@ public class CountryTest {
     @Test
     public void createCountryNegativeTest(){
         Country country = new Country();
-        country.setName( "Daulet 1" );
+        country.setName( name );
         country.setCode( "SDK" );
 
         // creating country
@@ -164,7 +165,7 @@ public class CountryTest {
     @Test
     public void deleteCountryNegativeTest(){
         Country country = new Country();
-        country.setName( "Daulet 1" );
+        country.setName( name );
         country.setCode( "SDK" );
 
         // creating country
@@ -175,6 +176,7 @@ public class CountryTest {
                 .when()
                 .post( "/school-service/api/countries" )
                 .then()
+                .log().body()
                 .statusCode( 201 )
                 .extract().jsonPath().getString( "id" )
                 ;
