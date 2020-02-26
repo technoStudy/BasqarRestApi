@@ -180,4 +180,36 @@ public class LocationTest extends BaseTest {
                 .statusCode( 404 )
         ;
     }
+
+    @Test
+    public void locationCapacityTest() {
+        Location model = getBody();
+        model.setCapacity( "this is capacity" );
+
+        // creating entity
+        String entityId = given()
+                .cookies( cookies )
+                .body( model )
+                .contentType( ContentType.JSON )
+                .when()
+                .log().body()
+                .post( apiPath )
+                .then()
+                .log().body()
+                .statusCode( 400 )
+                .extract().jsonPath().getString( "id" );
+
+        if(entityId != null) {
+        // deleting entity if for some reason it was created
+        given()
+                .cookies( cookies )
+                .when()
+                .log().body()
+                .delete( apiPath + "/" + entityId )
+                .then()
+                .log().body()
+                .statusCode( 200 )
+        ;
+        }
+    }
 }
