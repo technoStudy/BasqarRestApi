@@ -41,7 +41,7 @@ public class BaseTest {
                 .extract().response().getDetailedCookies();
 
         // TODO:
-        //List<String> schoolList = given(); //extract school ids
+        //List<String> schoolList = given(); //extract school ids from /school-service/api/schools/search
         //pick a random id from schoolList and assign to schoolId
         // use this schoolId in all test where needed
         // research json ignore unknown fields
