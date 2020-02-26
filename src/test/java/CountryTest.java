@@ -1,47 +1,12 @@
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Cookies;
 import model.Country;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import utility.BaseTest;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class CountryTest {
-    private String name;
-    private Cookies cookies;
-    private String nameEdited;
-    private String code;
-    private String codeEdited;
-
-    @BeforeClass
-    public void authenticate() {
-        name = getAlphaNumericString( 30 );
-        nameEdited = getAlphaNumericString( 30 );
-        code = getAlphaNumericString( 10 );
-        codeEdited = getAlphaNumericString( 10 );
-        RestAssured.baseURI = "https://test-basqar.mersys.io";
-        Map<String, String> credentials = new HashMap<>();
-        credentials.put( "username", "nigeria_tenant_admin" );
-        credentials.put( "password", "TnvLOl54WxR75vylop2A" );
-
-        cookies = given()
-                .body( credentials )
-                .contentType( ContentType.JSON )
-                .when()
-                .log().body()
-                .post( "/auth/login" )
-                .then()
-                .log().body()
-                .statusCode( 200 )
-                .extract().response().getDetailedCookies();
-    }
-
+public class CountryTest extends BaseTest {
     @Test
     public void getBasePath() {
         given()
@@ -232,29 +197,4 @@ public class CountryTest {
         ;
     }
 
-    private String getAlphaNumericString(int n) {
-
-        // chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
-
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder( n );
-
-        for(int i = 0; i < n; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int) (AlphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append( AlphaNumericString
-                    .charAt( index ) );
-        }
-
-        return sb.toString();
-    }
 }
