@@ -16,6 +16,7 @@ public class BaseTest {
     protected String nameEdited;
     protected String code;
     protected String codeEdited;
+    protected String schoolId;
 
     @BeforeClass
     public void authenticate() {
@@ -38,6 +39,12 @@ public class BaseTest {
                 .log().body()
                 .statusCode( 200 )
                 .extract().response().getDetailedCookies();
+
+        // TODO:
+        //List<String> schoolList = given(); //extract school ids
+        //pick a random id from schoolList and assign to schoolId
+        // use this schoolId in all test where needed
+        // research json ignore unknown fields
     }
 
 

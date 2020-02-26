@@ -45,7 +45,7 @@ public class BankAccountTest extends BaseTest {
         model.setIban( code );
         model.setIntegrationCode( "code" );
         model.setCurrency( "KZT" );
-        model.setSchoolId( "5e035f8c9ea1a129f71ac585" );
+        model.setSchoolId( schoolId );
         return model;
     }
 
