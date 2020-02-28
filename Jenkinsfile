@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('test  stage') {
             steps {
-                bat "mvn -Dmaven.test.failure.ignore=true  test"
+                bat "mvn -Dmaven.test.failure.ignore=true test -Dsurefire.suiteXmlFiles=/src/test/resources/country.xml"
             }
         }
         stage('result stage') {
