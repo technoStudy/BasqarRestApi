@@ -6,7 +6,9 @@ import io.restassured.http.Cookies;
 import org.testng.annotations.BeforeClass;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 
@@ -45,6 +47,20 @@ public class BaseTest {
         //pick a random id from schoolList and assign to schoolId
         // use this schoolId in all test where needed
         // research json ignore unknown fields
+
+        List<String> listOfSchoolIds = given()
+                .body("{}")
+                .contentType(ContentType.JSON)
+                .cookies(cookies)
+                .when()
+                .post("/school-service/api/schools/search")
+                .then()
+                .statusCode(200)
+                .extract().jsonPath().getList("id", String.class);
+
+        int randomIndex = new Random().nextInt(listOfSchoolIds.size());
+        schoolId = listOfSchoolIds.get(randomIndex);
+
     }
 
 

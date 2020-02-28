@@ -45,7 +45,7 @@ public class NotificationTest extends BaseTest {
         model.setName( name );
         model.setDescription( code );
         model.setType( "UPCOMING_PAYMENT_DEADLINE" );
-        model.setSchoolId( "5e035f8c9ea1a129f71ac585" );
+        model.setSchoolId( schoolId );
         return model;
     }
 

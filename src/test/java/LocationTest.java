@@ -47,7 +47,7 @@ public class LocationTest extends BaseTest {
         model.setType( "CLASS" );
 
         School school = new School();
-        school.setId( "5e035f8c9ea1a129f71ac585" );
+        school.setId( schoolId );
         model.setSchool( school );
 
         return model;
