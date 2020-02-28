@@ -25,7 +25,7 @@ pipeline {
             }
         }
         stage('echo stage') {
-            step {
+            steps {
                 echo "echo!"
             }
         }
