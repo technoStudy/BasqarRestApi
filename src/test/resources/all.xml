@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+   <test verbose="2" preserve-order="true" name="D:/Project/BasqarTestSuite/src/test/resources">
+        <classes>
+            <class name="CountryTest"></class>
+            <class name="BankAccountTest"></class>
+            <class name="GradeLevelTest"></class>
+            <class name="LocationTest"></class>
+            <class name="NotificationTest"></class>
+        </classes>
+    </test>
+</suite>

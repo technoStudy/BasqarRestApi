@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     stages {
-        stage('test  stage') {
+        stage('test country and bank only stage') {
             steps {
-                bat "mvn -Dmaven.test.failure.ignore=true test -Dsurefire.suiteXmlFiles=/src/test/resources/country.xml"
+                bat "mvn -Dmaven.test.failure.ignore=true test -DsuiteXmlFile=/src/test/resources/country.xml"
+                bat "mvn -Dmaven.test.failure.ignore=true test -DsuiteXmlFile=/src/test/resources/bank.xml"
             }
         }
         stage('result stage') {
